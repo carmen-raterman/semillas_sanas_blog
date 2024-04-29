@@ -27,7 +27,7 @@ export default function Header() {
 
   return (
     <header>
-      <Link to="/" className="logo"> MyBlog </Link>
+      <Link to="/" className="logo"> Semillas Sanas </Link>
       <nav>
         {username && (
           <>
