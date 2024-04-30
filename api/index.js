@@ -14,7 +14,7 @@ const fs = require('fs');
 const salt = bcrypt.genSaltSync(10);
 const secret = 'string';
 
-app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
+app.use(cors({credentials: true, origin: 'http://localhost:3000', methods: ['GET', 'POST', 'PUT', 'DELETE']}));
 app.use(express.json());
 //adding a cookie parser
 app.use(cookieParser());
@@ -88,6 +88,45 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
         res.json(postDoc);
     });  
 
+});
+
+app.put('/post', uploadMiddleware.single('file'), async (req, res) => {
+    let newPath = null;
+    if (req.file) {
+        const {originalname, path} = req.file;
+        const parts = originalname.split('.');
+        const ext = parts[parts.length - 1];
+        newPath = path+'.'+ext;
+        fs.renameSync(path, newPath);
+    }
+
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) throw err;
+        const {id, title, summary, content} = req.body;
+        const postDoc = await Post.findById(id)
+        if (!postDoc) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+        const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id); //author is object ID, so we need to use JSON
+        if (!isAuthor) {
+            return res.status(400).json('You are not the author of this post');
+        }
+
+        //updates
+        postDoc.title = title;
+        postDoc.summary = summary;
+        postDoc.content = content;
+        postDoc.cover = newPath ? newPath : postDoc.cover;
+
+        //saving updates
+        try {
+            const updatedPost = await postDoc.save();
+            res.json(updatedPost);
+        } catch (updateError) {
+            res.status(500).json({ message: "Failed to update the post", error: updateError });
+        }
+    });
 });
 
 app.get('/post', async (req, res) => {
