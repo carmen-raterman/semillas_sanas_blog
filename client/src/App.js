@@ -4,12 +4,12 @@ import Layout from './Layout';
 import IndexPage from './pages/IndexPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import { UserConextProvider } from './UserContext';
+import { UserContextProvider } from './UserContext';
 import CreatePost from './pages/CreatePost';
 
 function App() {
   return (
-    <UserConextProvider>
+    <UserContextProvider>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<IndexPage />} />
@@ -18,7 +18,7 @@ function App() {
           <Route path="/create" element={<CreatePost />} />
         </Route>
       </Routes>
-    </UserConextProvider>
+    </UserContextProvider>
   );
 }
 

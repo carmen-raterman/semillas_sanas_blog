@@ -1,4 +1,7 @@
-export default function Post() {
+import { format } from "date-fns";
+
+export default function Post({title, summary, cover, content, createdAt, author}) {
+  //console.log(author)
   return (
     <div className="post">
       <div className="image">
@@ -9,12 +12,12 @@ export default function Post() {
       </div>
 
       <div className="texts">
-        <h2> Beaver </h2>
+        <h2> {title} </h2>
         <p className="info">
-          <a className="author"> Carmen Sophia </a>
-          <time> 2024-04-29 </time>
+          <a className="author"> {author ? author.username : 'Loading...'} </a>
+          <time> {format(new Date(createdAt), 'MMM d, yyyy')} </time>
         </p>
-        <p className="summary"> This is a beaver and he is super chill </p>
+        <p className="summary"> {summary} </p>
       </div>
     </div>
   );
