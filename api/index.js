@@ -97,6 +97,12 @@ app.get('/post', async (req, res) => {
             .sort({createdAt: -1}) //posts can be descending order
             .limit(20) //limiting to the 20 latest posts
     );
-})
+});
+
+app.get('/post/:id', async(req, res) => {
+    const {id} = req.params;
+    const postDoc = await Post.findById(id).populate('author', ['username']); //we only want username not password (even though encrypted)
+    res.json(postDoc);
+});
 
 app.listen(4000);
