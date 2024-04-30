@@ -18,6 +18,7 @@ app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 app.use(express.json());
 //adding a cookie parser
 app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 mongoose.connect('mongodb+srv://blog:abPtADnhu9JIvutA@cluster0.wtyzv1u.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0');
 
@@ -90,7 +91,12 @@ app.post('/post', uploadMiddleware.single('file'), async (req, res) => {
 });
 
 app.get('/post', async (req, res) => {
-    res.json(await Post.find().populate('author', ['username']));
+    res.json(
+        await Post.find()
+            .populate('author', ['username'])
+            .sort({createdAt: -1}) //posts can be descending order
+            .limit(20) //limiting to the 20 latest posts
+    );
 })
 
 app.listen(4000);
