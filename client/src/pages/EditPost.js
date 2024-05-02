@@ -51,7 +51,7 @@ export default function EditPost() {
     };
 
     return (
-      <form onSubmit={updatePost}>
+      <form className="post-form" onSubmit={updatePost}>
         <input
           type="title"
           placeholder={"Title"}
@@ -70,7 +70,7 @@ export default function EditPost() {
 
         <Editor onChange={setContent} value={content} />
 
-        <button style={{ marginTop: "30px" }}> Update Post </button>
+        <button style={{ marginTop: "30px" }}> Actualizar </button>
       </form>
     );
 };

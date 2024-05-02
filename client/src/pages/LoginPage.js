@@ -33,7 +33,7 @@ export default function LoginPage() {
 
     return(
         <form className="login" onSubmit={login}>
-            <h1> Login </h1>
+            <h1> Identifícate </h1>
             <input type="text" 
                 placeholder="username"
                 value={username}
@@ -46,7 +46,7 @@ export default function LoginPage() {
                 onChange={ev => setPassword(ev.target.value)}
             />
 
-            <button> Login </button>
+            <button> Identifícate </button>
 
         </form>
     );

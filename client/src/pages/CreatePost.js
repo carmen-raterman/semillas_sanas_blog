@@ -36,7 +36,7 @@ export default function CreatePost() {
     };
 
     return(
-        <form onSubmit={createNewPost}>
+        <form className="post-form" onSubmit={createNewPost}>
             <input type="title"
                 placeholder={'Title'}
                 value={title} onChange={ev => setTitle(ev.target.value)}
@@ -51,7 +51,7 @@ export default function CreatePost() {
 
             <Editor value={content} onChange={setContent}/>
 
-            <button style={{marginTop: '30px'}}> Create Post </button>
+            <button style={{marginTop: '30px'}}> Crear Una Entrada </button>
 
         </form>
     )
